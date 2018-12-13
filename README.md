@@ -11,7 +11,11 @@ All Seamen following me on Twitter will get a promo code @CaptainJS_v2
 
 ### Use Case #1: The Simple Callback (aka "ring the ship's bell")
 
-In some cases it is necessary to Extend from usingCaptainJS and start coding. Use a unique integer job Id to identify your call.
+In some cases it is necessary to have a mechanism to call the contract back. But Solidity can't call itself. 
+
+Therefore extend from usingCaptainJS and start coding...
+
+Use a unique integer job Id to identify your callback. Invoke **RingShipsBell** with enough gas and receive the callback in method **RingRing**. That's it.
 
 ```
 contract SeamansExamples is usingCaptainJS {
@@ -27,6 +31,14 @@ contract SeamansExamples is usingCaptainJS {
         RingShipsBell(SHIPS_BELL_RING, 60, DEFAULT_GAS_UNITS, DEFAULT_GAS_PRICE);
     }
     
+    
+    function RingRing(uint UniqueIdentifier) external onlyCaptainsOrdersAllowed {
+        // OK. It worked and we got a result
+        if(UniqueIdentifier == SHIPS_BELL_RING)
+        { 
+            // What Shall We Do with the Drunken Sailor...
+        }
+    }
     
 ```
 
