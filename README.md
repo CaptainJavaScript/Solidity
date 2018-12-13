@@ -9,12 +9,12 @@ Hi, **I'm CaptainJS** and my nodejs container ship just left the harbor. **Be my
 
 All Seamen following me on Twitter will get a promo code @CaptainJS_v2
 
-### Use Case: The Simple Callback (aka "ring the ship's bell")
+### Use Case #1: The Simple Callback (aka "ring the ship's bell")
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+In some cases it is necessary to Extend from usingCaptainJS and start coding. Use a unique integer job Id to identify your call.
 
 ```
-contract SeamansExamples **is usingCaptainJS** {
+contract SeamansExamples is usingCaptainJS {
     ...
     uint constant SHIPS_BELL_RING = 3;
 
@@ -24,7 +24,7 @@ contract SeamansExamples **is usingCaptainJS** {
          * default gas = 21000
          * default gas price = 2000000000 wei
          */
-        **RingShipsBell**(SHIPS_BELL_RING, 60, DEFAULT_GAS_UNITS, DEFAULT_GAS_PRICE);
+        RingShipsBell(SHIPS_BELL_RING, 60, DEFAULT_GAS_UNITS, DEFAULT_GAS_PRICE);
     }
     
     
