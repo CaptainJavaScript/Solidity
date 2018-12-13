@@ -1,35 +1,32 @@
-## The CaptainJS's Mess
+## The Captain's Mess
 
 ![useful image](Captain.jpg)
 
-### Markdown
+There are so many Ethereum Oracles out there. But I needed a more simple and straight forward one for my projects. Thus, I created my own one. 
+Hi, **I'm CaptainJS** and my nodejs container ship just left the harbor. **Be my Seaman** and start invoking JavaScript directly from Ethereum's Solidity. Here's how to do it...  
+
+### Promo Codes
+
+All Seamen following me on Twitter will get a promo code @CaptainJS_v2
+
+### Use Case: The Simple Callback (aka "ring the ship's bell")
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
+```
+contract SeamansExamples **is usingCaptainJS** {
+    ...
+    uint constant SHIPS_BELL_RING = 3;
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+    function CallbackExample() public {
+        /* simply call this contract in 60 minutes back
+         * jobId = 3
+         * default gas = 21000
+         * default gas price = 2000000000 wei
+         */
+        **RingShipsBell**(SHIPS_BELL_RING, 60, DEFAULT_GAS_UNITS, DEFAULT_GAS_PRICE);
+    }
+    
+    
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/CaptainJavaScript/Solidity/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
