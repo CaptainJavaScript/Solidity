@@ -20,6 +20,8 @@ Use a unique integer job Id to identify your callback. Invoke **_RingShipsBell_*
 
 To make sure that **_RingRing_** will only be called by the captain himself and not a pirate, add **_onlyCaptainsOrdersAllowed_** to its declaration.
 
+At the moment the captain can only accept bell rings with a **maximum of 48 hours**.
+
 ```solidity
 contract SeamansExamples is usingCaptainJS {
     ...
@@ -62,6 +64,7 @@ If your JavaScript code was not successful _or_ its result couldn't be send back
 
 To make sure that both **_CaptainsResult_** and **_CaptainsError_** will only be called by the captain himself and not a pirate, add **_onlyCaptainsOrdersAllowed_** to its declaration.
 
+A **runtime slice** has a duration of 10 seconds and it includes the download and install of all required npm modules.
 
 Here's the complete code snippet:
 
@@ -85,7 +88,7 @@ contract SeamansExamples is usingCaptainJS {
             /* the returned string will have default maximum size */
             MAX_OUTPUT_LENGTH, 
             /* we will transfer gas units for return */
-            120000, 
+            70000, 
             /* we will transfer the default gas price for return */
             DEFAULT_GAS_PRICE
         );    
@@ -168,3 +171,65 @@ contract SeamansExamples is usingCaptainJS {
 ```
 
 ### What If? 
+
++ _what if_ you don't transfer enough **gas**?
+    - then your job won't fail directly.
+    - the captain will try his best to get the job back on the blockchain
+    - he will calculate the budget you submitted when calling **_Run(...)_** as _budget = gas * gas_price_
+    - then the captain will reduce the gas price and increase the gas based on the calculated _budget_
+    - if your job result then still doesn't go through, then good night
+    
++ _what if_ you transfer too much **gas** and a too high **gas price**?
+    - then the captain will order a bottle of rum on your expense
+    
++ _what if_ it a callback is delayed (ie. it is invoked after 2 days instead of 2 hours)
+    - the captain then will argue that the concept of blockchain isn't made for exacted invocations
+    - be mentally prepared then
+    - transfer a higher budget next time by increasing **gas** and **gas price**
+    
++ _what if_ a JavaScript code never gets executed?
+    - relax
+    - the captain then will shout "**impossible!**" and try its best by informing you via **_CaptainsError_** invocati### What If? 
+
++ _what if_ you change code within **_usingCaptainJS_**?
+    - you won't be keelhauled :-)
+    - try it, improve it!
+
++ _what if_ you submit _bad_ code?
+    - we don't like pirates!
+    - this is not nice!
+
+
+
+### Prices & Budget Transfer
+The Captain just rented his container ship. To pay his ship he needed to set these prices. Prices may change over time and will be updated both here + via Twitter.
+
++ _**RingShipsBell**(...)_: 
+    - if you have a promo code then you transfer the price per submission plus your gas budget for the callback
+    - otherwise the full price needs to be payed
+    - **_PricePerSubmission_** = _20 szabo_;
+    - **_PricePerBellRing_**   = _6 szabo_; // 0,001
+ 
+```Solidity
+        if(HasVoucher) 
+            return PricePerSubmission + (GasForCallback * GasPriceInWei);
+        else
+            return PricePerBellRing + PricePerSubmission + (GasForCallback * GasPriceInWei);
+```
+
++ _**Run**(...)_: 
+    - if you have a promo code then you transfer the price per submission plus your gas budget for the callback
+    - otherwise the full price needs to be payed
+    - **_PricePerSubmission_** = _20 szabo_;
+    - **_PricePerSlice_**      = _50 szabo_; // 1 slice = 10 seconds
+ 
+```Solidity
+        if(HasVoucher) 
+            return PricePerSubmission + (GasForCallback * GasPriceInWei);
+        else
+            return PricePerSubmission + (RuntimeSlices * PricePerSlice) + (GasForCallback * GasPriceInWei);
+```
+
+
+### Promo Codes
+
