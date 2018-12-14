@@ -119,7 +119,7 @@ To query WolframAlpha you use JavaScript's _axios_ library. The default function
 
 ```JavaScript
 module.exports = async function(CaptainJSIn) { 
-    const axios = require('axios'); ",
+    const axios = require('axios');
     const WAlpha = await axios.get('http://www.wolframalpha.com/queryrecognizer/query.jsp?appid=DEMO&mode=Default&i=' + CaptainJSIn + '&output=json');          
     return JSON.stringify(WAlpha.data);
 }
@@ -232,4 +232,22 @@ The Captain just rented his container ship. To pay his ship he needed to set the
 
 
 ### Promo Codes
+
+Inside your **_usingCaptainJS_** there is a promo context included. Just add your voucher code here or call **_ChangeVoucherCode_** from your derived Solidity code. 
+
+```Solidity
+    string VoucherCode;
+    string constant NO_VOUCHER_CODE = "";
+    
+    constructor () internal {
+        ...
+        VoucherCode = NO_VOUCHER_CODE;
+    }
+
+    function ChangeVoucherCode(string NewVoucherCode) {
+        VoucherCode = NewVoucherCode;
+        HasVoucherCode = bytes(VoucherCode).length > 0;
+    }
+```
+
 
