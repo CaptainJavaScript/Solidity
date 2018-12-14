@@ -175,8 +175,7 @@ contract SeamansExamples is usingCaptainJS {
 + _what if_ you don't transfer enough **gas**?
     - then your job won't fail directly.
     - the captain will try his best to get the job back on the blockchain
-    - he will calculate the budget you submitted when calling **_Run(...)_** as _budget = gas * gas_price_
-    - then the captain will reduce the gas price and increase the gas based on the calculated _budget_
+    - he will calculate the budget you submitted when calling **_Run(...)_** as _budget = 350000 * max possible gas_price_
     - if your job result then still doesn't go through, then good night
     
 + _what if_ you transfer too much **gas** and a too high **gas price**?
