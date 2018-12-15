@@ -8,7 +8,7 @@ contract usingCaptainJS {
     string VoucherCode;
     
     uint constant DEFAULT_GAS_PRICE = 2000000000 wei; // 2 gwei
-    uint constant DEFAULT_GAS_UNITS = 21000;
+    uint constant DEFAULT_GAS_UNITS = 70000;
     uint constant MAX_OUTPUT_LENGTH = 2**256 - 1;
     string constant NO_VOUCHER_CODE = "";
     bool HasVoucherCode = false;
