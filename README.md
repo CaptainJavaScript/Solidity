@@ -30,7 +30,7 @@ contract SeamansExamples is usingCaptainJS {
     function CallbackExample() public {
         /* simply call this contract in 60 minutes back
          * jobId = 3
-         * default gas = 21000 (defined in usingCaptainJS)
+         * default gas = 70000 (defined in usingCaptainJS)
          * default gas price = 2000000000 wei (defined in usingCaptainJS)
          */
         RingShipsBell(SHIPS_BELL_RING, 60 /* minutes */, DEFAULT_GAS_UNITS, DEFAULT_GAS_PRICE);
