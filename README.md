@@ -8,7 +8,7 @@ Hi, **I'm CaptainJS** and my nodejs container ship just left the harbor. **Be my
 ### Promo Codes
 
 All Seamen following me on Twitter will get a promo code @CaptainJS_v2
-Further details see "voucher" Use Case.
+Further details see "promo" section at the end.
 
 ### Use Case #1: The Simple Callback (aka "ring the ship's bell")
 
