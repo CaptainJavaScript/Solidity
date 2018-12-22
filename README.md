@@ -5,10 +5,54 @@
 There are so many Ethereum Oracles out there. But I needed a more simple and straight forward one for my projects. Thus, I created my own one. 
 Hi, **I'm CaptainJS** and my nodejs container ship just left the harbor. **Be my Seaman** and start invoking JavaScript directly from Ethereum's Solidity. Here's how to do it...  
 
-### Promo Codes
+### Voucher Codes
 
-All Seamen following me on Twitter will get a promo code @CaptainJS_v2
-Further details see "promo" section at the end.
+Inside your **_usingCaptainJS_** there is a voucher context included. Just add your voucher code by calling **_ActivateVoucher_** from your derived Solidity code. 
+
+Just check Captain's Twitter account for vouchers. 
+
+```Solidity
+ function UseVoucher() public {
+        ActivateVoucher("MobyDick");
+ }
+```
+
+### Prices & Budget Transfer
+The Captain just rented his container ship. To pay his ship he needed to set these prices. Prices may change over time and will be updated both here + via Twitter.
+
++ _**RingShipsBell**(...)_: 
+    - if you have a voucher code then you transfer your gas budget for the callback
+    - otherwise the full price needs to be payed
+    - **_PricePerSubmission_** = _20 szabo_;
+    - **_PricePerBellRing_**   = _6 szabo_; // 0,001
+ 
+```Solidity
+        if(HasVoucher) 
+            return GasForCallback * GasPriceInWei;
+        else
+            return PricePerBellRing + PricePerSubmission + (GasForCallback * GasPriceInWei);
+```
+
++ _**Run**(...)_: 
+    - if you have a promo code then you transfer your gas budget for the callback
+    - otherwise the full price needs to be payed
+    - **_PricePerSubmission_** = _20 szabo_;
+    - **_PricePerSlice_**      = _50 szabo_; // 1 slice = 10 seconds
+ 
+```Solidity
+        if(HasVoucher) 
+            return GasForCallback * GasPriceInWei;
+        else
+            return PricePerSubmission + (RuntimeSlices * PricePerSlice) + (GasForCallback * GasPriceInWei);
+```
+
+
+## The Seaman's Examples
+
+The **_SeamansExamples_** contract contains some code which you will see in the further chapters. There's a demo instance running at Ethereum's mainnet at address _0xfcd53089c3de49fa8c6cc8330cd9f49e84b01cd6_ waiting for your tests. 
+
+_(If the mainnet contract doesn't have enough budget anymore because too many seamen tested it, then transfer a tiny amount of Ether to it)_
+
 
 ### Use Case #1: The Simple Callback (aka "ring the ship's bell")
 
@@ -24,25 +68,21 @@ At the moment the captain can only accept bell rings with a **maximum of 48 hour
 
 ```solidity
 contract SeamansExamples is usingCaptainJS {
-    ...
-    uint constant SHIPS_BELL_RING = 3;
+   ...
+   uint constant SHIPS_BELL_RING = 3;
 
-    function CallbackExample() public {
-        /* simply call this contract in 60 minutes back
-         * jobId = 3
-         * default gas = 70000 (defined in usingCaptainJS)
-         * default gas price = 2000000000 wei (defined in usingCaptainJS)
-         */
-        RingShipsBell(SHIPS_BELL_RING, 60 /* minutes */, DEFAULT_GAS_UNITS, DEFAULT_GAS_PRICE);
+   function CallbackExample() public {
+        RingShipsBell(
+            SHIPS_BELL_RING, /* give the job a unique ID */
+            20, /* minutes from now */ 
+            DEFAULT_GAS_UNITS, /* use default gas */
+            DEFAULT_GAS_PRICE /* use default gas price */
+        );    
     }
-    
-    
+
     function RingRing(uint UniqueIdentifier) external onlyCaptainsOrdersAllowed {
-        // OK. It worked and we got a callback
-        if(UniqueIdentifier == SHIPS_BELL_RING)
-        { 
-            // What Shall We Do with the Drunken Sailor...
-        }
+        // OK. It worked and we got a result
+        ...
     }
     
 ```
@@ -64,7 +104,7 @@ If your JavaScript code was not successful _or_ its result couldn't be send back
 
 To make sure that both **_CaptainsResult_** and **_CaptainsError_** will only be called by the captain himself and not a pirate, add **_onlyCaptainsOrdersAllowed_** to its declaration.
 
-A **runtime slice** has a duration of 10 seconds and it includes the download and install of all required npm modules.
+A **runtime slice** has a duration of 10 seconds and it includes the download and install of all required npm modules. At the moment 6 runtime slices are the maximum.
 
 Here's the complete code snippet:
 
@@ -73,32 +113,31 @@ contract SeamansExamples is usingCaptainJS {
     ...
     uint constant CENTIMETER_JOB = 1;
 
-    function CentimeterToInchExample(string Centimeter) public returns (uint JobId) {
-        bool Success = Run(
-            /* give the job a unique ID */
-            CENTIMETER_JOB,
+    function CentimeterToInchExample(string Centimeter) public {
+        Run(
+            CENTIMETER_JOB,  /* give the job a unique ID */
             /* JavaScript code I want to execute: */
             "module.exports = function(CaptainJSIn) { var math = require('mathjs'); return math.eval(CaptainJSIn + ' cm to inch'); }", 
-            /* Input parameter */
-            Centimeter,
-            /* Nodejs libraries we need */
-            "mathjs", 
+            Centimeter, /* Input parameter which will result in CaptainJSIn (see above) */
+            "mathjs",  /* Nodejs libraries we need */
             /* we need a maximum of 2 runtime slices */
-            2, 
-            /* the returned string will have default maximum size */
-            MAX_OUTPUT_LENGTH, 
-            /* we will transfer gas units for return */
-            70000, 
-            /* we will transfer the default gas price for return */
-            DEFAULT_GAS_PRICE
+            3, /* we need a maximum of 3 runtime slices */
+            DEFAULT_GAS_UNITS, /* use default gas units */ 
+            DEFAULT_GAS_PRICE /* we will transfer the default gas price for return */
         );    
-   }
+    }
 
-   function CaptainsResult(uint UniqueJobIdentifier, string Result) external onlyCaptainsOrdersAllowed {
-       // analyse the return results
-       if(UniqueJobIdentifier == CENTIMETER_JOB) {
-           // OK. It worked and we got a result
-       } 
+    function CaptainsResult(uint UniqueJobIdentifier, string Result) external onlyCaptainsOrdersAllowed {
+        // analyse the return results
+        if(UniqueJobIdentifier == CENTIMETER_JOB) {
+            // OK. It worked and we got a result
+            ...
+        } else 
+        
+        if(UniqueJobIdentifier == WOLFRAMALPHA_JOB) {
+            // OK. It worked and we got another result
+            ...
+        }
     }
     
     function CaptainsError(uint UniqueJobIdentifier, string Error) external onlyCaptainsOrdersAllowed {
@@ -130,8 +169,6 @@ Again, if your JavaScript code was successful: **_CaptainsResult_** will be invo
 
 And because Solidity sometimes is such a crappy programming language you will use a very expensive **_concat_** function to make your JavaScript code more readable. 
 
-You will submit this JavaScript code by accident with **_DEFAULT_GAS_PRICE_** of 21,000 which will be not enough because the return value of your WolframAlpha job is very long. _(see what will happen then in section **what if?**)_
-
 Here's the complete code snippet. 
 
 ```solidity
@@ -139,34 +176,25 @@ contract SeamansExamples is usingCaptainJS {
     ...
     uint constant WOLFRAMALPHA_JOB = 2;
     
-    function CentimeterToInchExample(string Centimeter) public returns (uint JobId) {
-     bool Success = Run(
-            /* give the job a unique ID */
-            WOLFRAMALPHA_JOB,
-            /* JavaScript code I want to execute: */
-            concat (
+    function WolframAlphaExample(string Country) public {
+        Run(
+            WOLFRAMALPHA_JOB, /* give the job a unique ID */            
+            concat ( /* JavaScript code I want to execute: */
                 "module.exports = async function(CaptainJSIn) { ",
                 "   const axios = require('axios'); ",
                 "   const WAlpha = await axios.get('http://www.wolframalpha.com/queryrecognizer/query.jsp?appid=DEMO&mode=Default&i=' + CaptainJSIn + '&output=json'); ",          
                 "   return JSON.stringify(WAlpha.data); ",
                 "}"
             ),
-            /* Input parameter */
-            Country,
-            /* Nodejs libraries we need */
-            "axios", 
-            /* we need a maximum of 2 runtime slices */
-            2, 
-            /* the returned string will have default maximum size */
-            MAX_OUTPUT_LENGTH, 
-            /* we will transfer the default amount of gas units for return */
-            DEFAULT_GAS_UNITS, 
-            /* we will transfer the default gas price for return */
-            DEFAULT_GAS_PRICE
+            Country, /* Input parameter which will result in CaptainJSIn (see above) */
+            "axios, mathjs", /* Nodejs libraries we need */
+            3, /* we need a maximum of 3 runtime slices */
+            200000, /* use 200,000 gas units */
+            DEFAULT_GAS_PRICE /* use default gas price */
         );    
-      }
+    }
       
-      ...
+    ...
 }    
 ```
 
@@ -200,53 +228,6 @@ contract SeamansExamples is usingCaptainJS {
 
 
 
-### Prices & Budget Transfer
-The Captain just rented his container ship. To pay his ship he needed to set these prices. Prices may change over time and will be updated both here + via Twitter.
 
-+ _**RingShipsBell**(...)_: 
-    - if you have a promo code then you transfer the price per submission plus your gas budget for the callback
-    - otherwise the full price needs to be payed
-    - **_PricePerSubmission_** = _20 szabo_;
-    - **_PricePerBellRing_**   = _6 szabo_; // 0,001
- 
-```Solidity
-        if(HasVoucher) 
-            return PricePerSubmission + (GasForCallback * GasPriceInWei);
-        else
-            return PricePerBellRing + PricePerSubmission + (GasForCallback * GasPriceInWei);
-```
-
-+ _**Run**(...)_: 
-    - if you have a promo code then you transfer the price per submission plus your gas budget for the callback
-    - otherwise the full price needs to be payed
-    - **_PricePerSubmission_** = _20 szabo_;
-    - **_PricePerSlice_**      = _50 szabo_; // 1 slice = 10 seconds
- 
-```Solidity
-        if(HasVoucher) 
-            return PricePerSubmission + (GasForCallback * GasPriceInWei);
-        else
-            return PricePerSubmission + (RuntimeSlices * PricePerSlice) + (GasForCallback * GasPriceInWei);
-```
-
-
-### Promo Codes
-
-Inside your **_usingCaptainJS_** there is a promo context included. Just add your voucher code here or call **_ChangeVoucherCode_** from your derived Solidity code. 
-
-```Solidity
-    string VoucherCode;
-    string constant NO_VOUCHER_CODE = "";
-    
-    constructor () internal {
-        ...
-        VoucherCode = NO_VOUCHER_CODE;
-    }
-
-    function ChangeVoucherCode(string NewVoucherCode) {
-        VoucherCode = NewVoucherCode;
-        HasVoucherCode = bytes(VoucherCode).length > 0;
-    }
-```
 
 
