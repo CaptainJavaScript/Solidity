@@ -1,6 +1,29 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
 
-import "./seaman/usingCaptainJS.sol";
+import "./usingCaptainJS.sol";
+
+contract IsOwnableAndDestructable {
+    address Owner;
+    constructor () internal {
+        Owner = msg.sender;
+    }
+
+    function Destruct() public onlyOwner {
+        selfdestruct(Owner);
+    }
+
+    function Payout(uint Amount) public onlyOwner {
+        address(Owner).transfer(Amount);
+    }
+
+    modifier onlyOwner {
+        require(
+            msg.sender == Owner,
+            "..."
+        );
+        _;
+    }
+
 
 contract SeamansExamples is usingCaptainJS, IsOwnableAndDestructable {
 
@@ -9,72 +32,51 @@ contract SeamansExamples is usingCaptainJS, IsOwnableAndDestructable {
     uint constant SHIPS_BELL_RING = 3;
 
     constructor () public {
-        ChangeVoucherCode("Seaman 'Luke'");
+    }
+
+    function UseVoucher() public {
+        ActivateVoucher("MobyDick");
     }
 
     function CallbackExample() public {
-        // simply call this contract in 1 minute back
-        RingShipsBell(SHIPS_BELL_RING, 2, DEFAULT_GAS_UNITS, DEFAULT_GAS_PRICE);
-        emit ResultLog("RingShipsBell successfully submitted ;-)");
+        RingShipsBell(
+            SHIPS_BELL_RING, /* give the job a unique ID */
+            20, /* minutes from now */ 
+            DEFAULT_GAS_UNITS, /* use default gas */
+            DEFAULT_GAS_PRICE /* use default gas price */
+        );    
     }
 
-
-    function WolframAlphaExample(string Country) public returns (uint JobId) {
-        bool Success = Run(
-            /* give the job a unique ID */
-            WOLFRAMALPHA_JOB,
-            /* JavaScript code I want to execute: */
-            concat (
+    function WolframAlphaExample(string Country) public {
+        Run(
+            WOLFRAMALPHA_JOB, /* give the job a unique ID */            
+            concat ( /* JavaScript code I want to execute: */
                 "module.exports = async function(CaptainJSIn) { ",
                 "   const axios = require('axios'); ",
                 "   const WAlpha = await axios.get('http://www.wolframalpha.com/queryrecognizer/query.jsp?appid=DEMO&mode=Default&i=' + CaptainJSIn + '&output=json'); ",          
                 "   return JSON.stringify(WAlpha.data); ",
                 "}"
             ),
-            /* Input parameter */
-            Country,
-            /* Nodejs libraries we need */
-            "axios", 
-            /* we need a maximum of 2 runtime slices */
-            1, 
-            /* the returned string will have default maximum size */
-            MAX_OUTPUT_LENGTH, 
-            /* we will transfer the default amount of gas units for return */
-            DEFAULT_GAS_UNITS, 
-            /* we will transfer the default gas price for return */
-            DEFAULT_GAS_PRICE
+            Country, /* Input parameter which will result in CaptainJSIn (see above) */
+            "axios, mathjs", /* Nodejs libraries we need */
+            3, /* we need a maximum of 3 runtime slices */
+            200000, /* use 200,000 gas units */
+            DEFAULT_GAS_PRICE /* use default gas price */
         );    
-        
-        if(Success) 
-            emit ResultLog("WolframAlphaExample successfully submitted ;-)");
-        else
-            emit ResultLog("WolframAlphaExample was not submitted :-(");
     }
 
-    function CentimeterToInchExample(string Centimeter) public returns (uint JobId) {
-        bool Success = Run(
-            /* give the job a unique ID */
-            CENTIMETER_JOB,
+    function CentimeterToInchExample(string Centimeter) public {
+        Run(
+            CENTIMETER_JOB,  /* give the job a unique ID */
             /* JavaScript code I want to execute: */
             "module.exports = function(CaptainJSIn) { var math = require('mathjs'); return math.eval(CaptainJSIn + ' cm to inch'); }", 
-            /* Input parameter */
-            Centimeter,
-            /* Nodejs libraries we need */
-            "mathjs", 
+            Centimeter, /* Input parameter which will result in CaptainJSIn (see above) */
+            "mathjs",  /* Nodejs libraries we need */
             /* we need a maximum of 2 runtime slices */
-            2, 
-            /* the returned string will have default maximum size */
-            MAX_OUTPUT_LENGTH, 
-            /* we will transfer the default amount of gas units for return */
-            120000, 
-            /* we will transfer the default gas price for return */
-            DEFAULT_GAS_PRICE
+            3, /* we need a maximum of 3 runtime slices */
+            DEFAULT_GAS_UNITS, /* use default gas units */ 
+            DEFAULT_GAS_PRICE /* we will transfer the default gas price for return */
         );    
-        
-        if(Success) 
-            emit ResultLog("CentimeterToInchExample successfully submitted ;-)");
-        else
-            emit ResultLog("CentimeterToInchExample was not submitted :-(");
     }
 
     function CaptainsResult(uint UniqueJobIdentifier, string Result) external onlyCaptainsOrdersAllowed {
@@ -169,3 +171,4 @@ contract SeamansExamples is usingCaptainJS, IsOwnableAndDestructable {
 
 
 }
+
