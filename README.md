@@ -24,7 +24,7 @@ The Captain just rented his container ship. To pay his ship he needed to set the
     - if you have a voucher code then you transfer your gas budget for the callback
     - otherwise the full price needs to be payed
     - **_PricePerSubmission_** = _20 szabo_;
-    - **_PricePerBellRing_**   = _6 szabo_; // 0,001
+    - **_PricePerBellRing_**   = _6 szabo_;
  
 ```Solidity
         if(HasVoucher) 
