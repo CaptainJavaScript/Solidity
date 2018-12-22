@@ -23,6 +23,7 @@ contract IsOwnableAndDestructable {
         );
         _;
     }
+}
 
 
 contract SeamansExamples is usingCaptainJS, IsOwnableAndDestructable {
