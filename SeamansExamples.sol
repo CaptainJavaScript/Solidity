@@ -73,7 +73,6 @@ contract SeamansExamples is usingCaptainJS, IsOwnableAndDestructable {
             "module.exports = function(CaptainJSIn) { var math = require('mathjs'); return math.eval(CaptainJSIn + ' cm to inch'); }", 
             Centimeter, /* Input parameter which will result in CaptainJSIn (see above) */
             "mathjs",  /* Nodejs libraries we need */
-            /* we need a maximum of 2 runtime slices */
             3, /* we need a maximum of 3 runtime slices */
             DEFAULT_GAS_UNITS, /* use default gas units */ 
             DEFAULT_GAS_PRICE /* we will transfer the default gas price for return */
