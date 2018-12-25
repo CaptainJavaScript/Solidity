@@ -228,6 +228,8 @@ contract SeamansExamples is usingCaptainJS {
 
 
 
+### Client Libraries
+I uploaded a JavaScript test client at https://github.com/CaptainJavaScript/Seaman-Client
 
 
 
