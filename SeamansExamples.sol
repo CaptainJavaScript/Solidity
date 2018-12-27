@@ -169,6 +169,5 @@ contract SeamansExamples is usingCaptainJS, IsOwnableAndDestructable {
         return concat(_a, _b, "", "", "");
     }
 
-
 }
 
