@@ -19,7 +19,8 @@ contract ICaptainJS {
 
 contract usingCaptainJS {
 
-    address CaptainsAddress = 0xc52f52057f6bf5ecc75d704cb85510f4e1ba207b; // v2
+    address CaptainsAddress = 0xc52f52057f6bf5ecc75d704cb85510f4e1ba207b; // MAINNET
+    // address constant CaptainsAddressAtROPSTEN = 0x2cc6e8a4dd631fbb504e696231526b3a984c1e46;
 
     uint constant DEFAULT_GAS_PRICE = 3000000000 wei; // 3 gwei
     uint constant DEFAULT_GAS_UNITS = 100000;
