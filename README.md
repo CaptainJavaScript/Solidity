@@ -7,7 +7,7 @@ Hi, **I'm CaptainJS** and my nodejs container ship just left the harbor. **Be my
 
 ### Voucher Codes
 
-Inside your **_usingCaptainJS_** there is a voucher context included. Just add your voucher code by calling **_ActivateVoucher_** from your derived Solidity code. 
+There's both a ROPSTEN and MAINNET version available. Both are equal. Inside your **_usingCaptainJS_** there is a voucher context included. Just add your voucher code by calling **_ActivateVoucher_** from your derived Solidity code. 
 
 Just check Captain's Twitter account for vouchers. 
 
@@ -49,9 +49,9 @@ The Captain just rented his container ship. To pay his ship he needed to set the
 
 ## The Seaman's Examples
 
-The **_SeamansExamples_** contract contains some code which you will see in the further chapters. There's a demo instance running at Ethereum's mainnet at address _0xfcd53089c3de49fa8c6cc8330cd9f49e84b01cd6_ waiting for your tests. 
+The **_SeamansExamples_** contract contains some code which you will see in the further chapters. There's a demo instance running at Ethereum's mainnet at address _0xfcd53089c3de49fa8c6cc8330cd9f49e84b01cd6_ (ROPSTEN: _0x2c53859c18da0e286161f1649e6a5fdabcb9bb98_) waiting for your tests. 
 
-_(If the mainnet contract doesn't have enough budget anymore because too many seamen tested it, then transfer a tiny amount of Ether to it)_
+_(If the mainnet contract doesn't have enough budget anymore because too many seamen tested it, then transfer a tiny amount of real Ether to it)_
 
 
 ### Use Case #1: The Simple Callback (aka "ring the ship's bell")
