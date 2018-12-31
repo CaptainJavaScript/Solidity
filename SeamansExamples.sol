@@ -25,12 +25,13 @@ contract IsOwnableAndDestructable {
     }
 }
 
-
 contract SeamansExamples is usingCaptainJS, IsOwnableAndDestructable {
 
     uint constant CENTIMETER_JOB = 1;
     uint constant WOLFRAMALPHA_JOB = 2;
     uint constant SHIPS_BELL_RING = 3;
+    uint constant JSON_QUERY_EXAMPLE = 4;
+    uint constant HTML_QUERY_EXAMPLE = 5;
 
     constructor () public {
     }
@@ -73,7 +74,36 @@ contract SeamansExamples is usingCaptainJS, IsOwnableAndDestructable {
             "module.exports = function(CaptainJSIn) { var math = require('mathjs'); return math.eval(CaptainJSIn + ' cm to inch'); }", 
             Centimeter, /* Input parameter which will result in CaptainJSIn (see above) */
             "mathjs",  /* Nodejs libraries we need */
+            /* we need a maximum of 2 runtime slices */
             3, /* we need a maximum of 3 runtime slices */
+            DEFAULT_GAS_UNITS, /* use default gas units */ 
+            DEFAULT_GAS_PRICE /* we will transfer the default gas price for return */
+        );    
+    }
+
+    function HTMLqueryExample() public {
+        Run(
+            HTML_QUERY_EXAMPLE,  /* give the job a unique ID */
+            /* url needs to start with html: */
+            "html:http://www.amazon.co.uk/gp/product/1118531647",
+            /* Input parameter is the JQuery. Result will be stored in QUERY_RESULT variable */ 
+            "$('span.inlineBlock-display span.a-color-price').each(function(i, element) {var el = $(this); QUERY_RESULT = el.text(); })", 
+            "",  /* no modules required */
+            1, /* queries are fast */
+            DEFAULT_GAS_UNITS, /* use default gas units */ 
+            DEFAULT_GAS_PRICE /* we will transfer the default gas price for return */
+        );    
+    }
+    
+    function JSONqueryExample() public {
+        Run(
+            JSON_QUERY_EXAMPLE,  /* give the job a unique ID */
+            /* url needs to start with json: */
+            "json:https://api.kraken.com/0/public/Ticker?pair=ETHUSD",
+            /* Input parameter is the JSON path */ 
+            "result.XETHZUSD.a[0]", 
+            "",  /* no modules required */
+            1, /* queries are fast */
             DEFAULT_GAS_UNITS, /* use default gas units */ 
             DEFAULT_GAS_PRICE /* we will transfer the default gas price for return */
         );    
@@ -86,14 +116,22 @@ contract SeamansExamples is usingCaptainJS, IsOwnableAndDestructable {
             emit ResultLog(concat("CentimeterToInchExample returned the following result: <", Result, ">", "", ""));
             // set the dummy flag, so that the event log gets raised
             DummyFlagToForceEventSubmission = true;
-        } else 
-        
-        if(UniqueJobIdentifier == WOLFRAMALPHA_JOB) {
-            // OK. It worked and we got a result
-            emit ResultLog(concat("WolframAlphaExample returned the following result: <", Result, ">", "", ""));
-            // set the dummy flag, so that the event log gets raised
-            DummyFlagToForceEventSubmission = true;
-        }
+        } 
+        else         
+            if(UniqueJobIdentifier == WOLFRAMALPHA_JOB) {
+                emit ResultLog(concat("WolframAlphaExample returned the following result: <", Result, ">", "", ""));
+                DummyFlagToForceEventSubmission = true;
+            }
+            else
+                if(UniqueJobIdentifier == JSON_QUERY_EXAMPLE) {
+                    emit ResultLog(concat("JSON request returned the following result: <", Result, ">", "", ""));
+                    DummyFlagToForceEventSubmission = true;
+                }
+                else
+                    if(UniqueJobIdentifier == HTML_QUERY_EXAMPLE) {
+                        emit ResultLog(concat("HTML request returned the following result: <", Result, ">", "", ""));
+                        DummyFlagToForceEventSubmission = true;
+                    }
     }
     
     function CaptainsError(uint UniqueJobIdentifier, string Error) external onlyCaptainsOrdersAllowed {
@@ -169,5 +207,7 @@ contract SeamansExamples is usingCaptainJS, IsOwnableAndDestructable {
         return concat(_a, _b, "", "", "");
     }
 
+
 }
+
 
