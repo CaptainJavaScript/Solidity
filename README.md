@@ -205,9 +205,12 @@ A classic oracle request is a simple JSON, XML/XPath or HTML/jQuery request. Ins
 
 To invoke a simple query just use the _Run_ method in the same way as you did it in the previous 2 use cases. But instead of submitting JavaScript code send an URL that has either a **_html:_**, **_xml:_** or **_json:_** prefix. The input parameter of the _Run_ method is either a _JSON_, _XPath_ or _jQuery_ expression. Typically 1 runtime slice is enough.
 
+If your JavaScript code was successful: **_CaptainsResult_** will be invoked. Otherwise **_CaptainsError_** will be invoked.
+
+
 _(The client libraries now include a test module to see if your code works - before you submitted to the blockchain)_
 
-```
+```Solidity
     function HTMLqueryExample() public {
         Run(
             HTML_QUERY_EXAMPLE,  /* give the job a unique ID */
