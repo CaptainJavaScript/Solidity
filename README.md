@@ -17,7 +17,7 @@ Just check Captain's Twitter account for vouchers.
  }
 ```
 
-### Prices & Budget Transfer
+### Fees & Budget Transfer
 The Captain just rented his container ship. To pay his ship he needed to set these prices. Prices may change over time and will be updated both here + via Twitter.
 
 + _**RingShipsBell**(...)_: 
@@ -51,7 +51,7 @@ The Captain just rented his container ship. To pay his ship he needed to set the
 
 The **_SeamansExamples_** contract contains some code which you will see in the further chapters. There's a demo instance running at Ethereum's mainnet at address _0xfcd53089c3de49fa8c6cc8330cd9f49e84b01cd6_ (ROPSTEN: _0x2c53859c18da0e286161f1649e6a5fdabcb9bb98_) waiting for your tests. 
 
-_(If the mainnet contract doesn't have enough budget anymore because too many seamen tested it, then transfer a tiny amount of real Ether to it)_
+_(If the contract doesn't have enough budget anymore because too many seamen tested it, then transfer a tiny amount of real / faucet Ether to it)_
 
 
 ### Use Case #1: The Simple Callback (aka "ring the ship's bell")
@@ -197,6 +197,46 @@ contract SeamansExamples is usingCaptainJS {
     ...
 }    
 ```
+
+
+### Use Case #4: The JSON, XML/XPath or HTML/jQuery Request
+
+A classic oracle request is a simple JSON, XML/XPath or HTML/jQuery request. Instead of writing a full-blown JavaScript code which does the query for you the newest release has predefined queries.
+
+To invoke a simple query just use the _Run_ method in the same way as you did it in the previous 2 use cases. But instead of submitting JavaScript code send an URL that has either a **_html:_**, **_xml:_** or **_json:_** prefix. The input parameter of the _Run_ method is either a _JSON_, _XPath_ or _jQuery_ expression. Typically 1 runtime slice is enough.
+
+_(The client libraries now include a test module to see if your code works - before you submitted to the blockchain)_
+
+```
+    function HTMLqueryExample() public {
+        Run(
+            HTML_QUERY_EXAMPLE,  /* give the job a unique ID */
+            /* url needs to start with html: */
+            "html:http://www.amazon.co.uk/gp/product/1118531647",
+            /* Input parameter is the jQuery. Result will be stored in QUERY_RESULT variable */ 
+            "$('span.inlineBlock-display span.a-color-price').each(function(i, element) {var el = $(this); QUERY_RESULT = el.text(); })", 
+            "",  /* no modules required */
+            1, /* queries are fast */
+            DEFAULT_GAS_UNITS, /* use default gas units */ 
+            DEFAULT_GAS_PRICE /* we will transfer the default gas price for return */
+        );    
+    }
+    
+    function JSONqueryExample() public {
+        Run(
+            JSON_QUERY_EXAMPLE,  /* give the job a unique ID */
+            /* url needs to start with json: */
+            "json:https://api.kraken.com/0/public/Ticker?pair=ETHUSD",
+            /* Input parameter is the JSON path */ 
+            "result.XETHZUSD.a[0]", 
+            "",  /* no modules required */
+            1, /* queries are fast */
+            DEFAULT_GAS_UNITS, /* use default gas units */ 
+            DEFAULT_GAS_PRICE /* we will transfer the default gas price for return */
+        );    
+    }
+```
+
 
 ### What If? 
 
