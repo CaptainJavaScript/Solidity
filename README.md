@@ -241,6 +241,75 @@ _(The client libraries now include a test module to see if your code works - bef
 ```
 
 
+### Use Case #5: Encrypting your data
+For those seamen who like to encrypt their data which is stored in the blockchain I've added an encryption module to the latest release. This allows you to send encrypted data to the Captain's NodeJS containers. There it will be decrypted and executed. _(The string result will not be send encrypted back)_
+
+For example you want to send a mail after a transaction happened then you could make use of _nodemailer_, login to your mail account and send the mail. In this case your code will look similar to this one:
+
+```JavaScript
+module.exports = async function(CaptainJSIn) { 
+    var nodemailer = require("nodemailer");
+    var transport = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+        ciphers:'SSLv3'
+        },
+        auth: {
+            user: "myaddress@outlook.com",
+            pass: "mysecretpassword"
+        }
+    });
+    var mailOptions = {
+        to: 'donald.trum@whitehouse.gov', // list of receivers
+        subject: "you're fired", // Subject line
+        text: "Dear Donald, ..."
+    };
+    
+    // send mail with defined transport object
+    transport.sendMail(mailOptions, function(error, info){});
+}
+```
+
+The bad side of the story is, that your account details will be stored within your code. And these account details will be stored in Ethereum's blockchain forever. That's bad. **But there's hope!**
+
+In the client libraries I've added the https://github.com/CaptainJavaScript/Seaman-Client/blob/master/CaptainJS-ModuleExtensions.js which help you to encrypt your data before you include them in your contract:
++ just simply add your module to a file like _MailSample.js_
++ encrypt the file using **_EncryptFile_** from _CaptainJS-ModuleExtensions.js_
++ add the encrypted code to your contract
+
+Encrypt your code:
+```JavaScript
+var ENC = require("./CaptainJS-Encryption.js");
+async function RUN() { 
+    await ENC.EncryptFile(false, "MailSample.js", "EncryptedMailSample.txt", 
+        () => { console.log("Success!"); },
+        (ERROR) => { console.log(ERROR); }
+    );
+}
+RUN();
+```
+
+And add your encrypted code to the Solidity-based contract:
+```Solidity
+function HTMLqueryExample() public {
+    Run(
+        ENCRYPTED_MAIL_EXAMPLE,
+        "crypt:8366268bd167a9f8318f99c71d0f489d0372b545735c2e10303c47bad2507e933171f72f...",
+        "", 
+        "",  
+        1,
+        DEFAULT_GAS_UNITS,  
+        DEFAULT_GAS_PRICE 
+    );    
+}
+```
+
+
+**The Captain will never read your code! It just gets executed in a fresh new container.** In other words: if you encrypt your data then it will stay encrypted until it's executed in a container (and the container will vanish after execution). The encryption uses the public/private key of the Captain's contracts. Allthough the captain could read your encrypted data for private purposes, he won't do it. That's a promise and a proof of trust.
+
+
 ### What If? 
 
 + _what if_ you don't transfer enough **gas**?
