@@ -277,7 +277,7 @@ The bad side of the story is, that your account details will be stored within yo
 
 In the client libraries I've added the https://github.com/CaptainJavaScript/Seaman-Client/blob/master/CaptainJS-Encryption.js which help you to encrypt your data before you include them in your contract:
 + just simply add your module to a file like _MailSample.js_
-+ encrypt the file using **_EncryptFile_** from _CaptainJS-ModuleExtensions.js_
++ encrypt the file using **_EncryptFile_** from _CaptainJS-Encryption.js_
 + add the encrypted code to your contract
 
 Encrypt your code:
