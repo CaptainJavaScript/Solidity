@@ -149,6 +149,8 @@ contract SeamansExamples is usingCaptainJS {
 
 }    
 ```
+_(I have a special mathjs function in use case #6)_
+
 
 ### Use Case #3: The Heavy JavaScript Job
 
@@ -311,6 +313,36 @@ function HTMLqueryExample() public {
 **The Captain will never read your code! It just gets executed in a fresh new container.** In other words: if you encrypt your data then it will stay encrypted until it's executed in a container (and the container will vanish after execution). The encryption uses the public/private key of the Captain's contracts. Allthough the captain could read your encrypted data for private purposes, he won't do it. That's a promise and a proof of trust.
 
 
+### Use Case #6: The MathJS Shortcut
+I'm an old man and I remember the old Basic meets Assembler days that made my hair become grey. Math in Solidity is hell. Why not simply use MathJS? Why re-code everything what already exists??? **Here's the trick:**
+
+```solidity
+contract MathDemo is usingCaptainJS {
+    ...
+    function DoLog2_Example() public {
+        Run(
+            1, /* give the job a unique ID */
+            "math:log2(16)", /* just call the mathjs-function after math: */
+            "",
+            "",
+            1, /* it's fast: 1 slice is enough */
+            DEFAULT_GAS_UNITS, /* use default gas units */ 
+            DEFAULT_GAS_PRICE /* we will transfer the default gas price for return */
+        );    
+    }
+
+    function CaptainsResult(uint UniqueJobIdentifier, string Result) external onlyCaptainsOrdersAllowed {
+        // continue with the Log2-result
+        uint Log2Result = parseInt(Result);
+        ...
+    }
+    
+    ...
+
+}    
+```
+
+
 ### What If? 
 
 + _what if_ you don't transfer enough **gas**?
@@ -329,7 +361,7 @@ function HTMLqueryExample() public {
     
 + _what if_ a JavaScript code never gets executed?
     - relax
-    - the captain then will shout "**impossible!**" and try its best by informing you via **_CaptainsError_** invocati### What If? 
+    - the captain then will shout "**impossible!**" and try its best by informing you via **_CaptainsError_** invocation 
 
 + _what if_ you change code within **_usingCaptainJS_**?
     - you won't be keelhauled :-)
