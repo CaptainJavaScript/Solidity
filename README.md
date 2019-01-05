@@ -310,7 +310,7 @@ function HTMLqueryExample() public {
 ```
 
 
-**The Captain will never read your code! It just gets executed in a fresh new container.** In other words: if you encrypt your data then it will stay encrypted until it's executed in a container (and the container will vanish after execution). The encryption uses the public/private key of the Captain's contracts. Allthough the captain could read your encrypted data for private purposes, he won't do it. That's a promise and a proof of trust.
+**The Captain will never read your code! It just gets executed in a fresh new container.** In other words: if you encrypt your data then it will stay encrypted until it's executed in a container (and the container will vanish after execution). The encryption uses the public/private key of the Captain's Ethereum contracts. This is the only way nobody else can decrypt your data. Allthough the captain could read your encrypted data for private purposes, he doesn't do it. That's a promise and a proof of trust.
 
 
 ### Use Case #6: The MathJS Shortcut
@@ -342,6 +342,37 @@ contract MathDemo is usingCaptainJS {
 }    
 ```
 
+
+### Use Case #7: The 1-line of code
+Sometimes it is too much effort for me to write a full JavaScript module. Sometimes I just want to execute 1-line of code. 
+
+Here's how to do it:
+
+```solidity
+contract MathDemo is usingCaptainJS {
+    ...
+    function DoLog2_Example() public {
+        Run(
+            1, /* give the job a unique ID */
+            "eval:var a = CaptainJSIn + 2; CaptainJSOut = a;", /* just add eval: keyword */
+            "",
+            "",
+            1, /* it's fast: 1 slice is enough */
+            DEFAULT_GAS_UNITS, /* use default gas units */ 
+            DEFAULT_GAS_PRICE /* we will transfer the default gas price for return */
+        );    
+    }
+    ...
+}    
+```
+
+The captain then will transform this into a JavaScript module before he's executing it:
+```JavaScript
+module.exports = async function(CaptainJSIn) { 
+   var CaptainJSOut = ''; 
+   var a = 1 + 2; CaptainJSOut = a;return CaptainJSOut;
+}
+```
 
 ### What If? 
 
