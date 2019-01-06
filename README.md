@@ -5,47 +5,6 @@
 There are so many Ethereum Oracles out there. But I needed a more simple and straight forward one for my projects. Thus, I created my own one. 
 Hi, **I'm CaptainJS** and my nodejs container ship just left the harbor. **Be my Seaman** and start invoking JavaScript directly from Ethereum's Solidity. Here's how to do it...  
 
-### Voucher Codes
-
-There's both a ROPSTEN and MAINNET version available. Both are equal. Inside your **_usingCaptainJS_** there is a voucher context included. Just add your voucher code by calling **_ActivateVoucher_** from your derived Solidity code. 
-
-Just check Captain's Twitter account for vouchers. 
-
-```Solidity
- function UseVoucher() public {
-        ActivateVoucher("MobyDick");
- }
-```
-
-### Fees & Budget Transfer
-The Captain just rented his container ship. To pay his ship he needed to set these prices. Prices may change over time and will be updated both here + via Twitter.
-
-+ _**RingShipsBell**(...)_: 
-    - if you have a voucher code then you transfer your gas budget for the callback
-    - otherwise the full price needs to be payed
-    - **_PricePerSubmission_** = _20 szabo_;
-    - **_PricePerBellRing_**   = _6 szabo_;
- 
-```Solidity
-        if(HasVoucher) 
-            return GasForCallback * GasPriceInWei;
-        else
-            return PricePerBellRing + PricePerSubmission + (GasForCallback * GasPriceInWei);
-```
-
-+ _**Run**(...)_: 
-    - if you have a promo code then you transfer your gas budget for the callback
-    - otherwise the full price needs to be payed
-    - **_PricePerSubmission_** = _20 szabo_;
-    - **_PricePerSlice_**      = _50 szabo_; // 1 slice = 10 seconds
- 
-```Solidity
-        if(HasVoucher) 
-            return GasForCallback * GasPriceInWei;
-        else
-            return PricePerSubmission + (RuntimeSlices * PricePerSlice) + (GasForCallback * GasPriceInWei);
-```
-
 
 ## The Seaman's Examples
 
@@ -373,6 +332,48 @@ module.exports = async function(CaptainJSIn) {
    var a = 1 + 2; CaptainJSOut = a;return CaptainJSOut;
 }
 ```
+
+### Voucher Codes
+
+There's both a ROPSTEN and MAINNET version available. Both are equal. Inside your **_usingCaptainJS_** there is a voucher context included. Just add your voucher code by calling **_ActivateVoucher_** from your derived Solidity code. 
+
+Just check Captain's Twitter account for vouchers. 
+
+```Solidity
+ function UseVoucher() public {
+        ActivateVoucher("MobyDick");
+ }
+```
+
+### Fees & Budget Transfer
+The Captain just rented his container ship. To pay his ship he needed to set these prices. Prices may change over time and will be updated both here + via Twitter.
+
++ _**RingShipsBell**(...)_: 
+    - if you have a voucher code then you transfer your gas budget for the callback
+    - otherwise the full price needs to be payed
+    - **_PricePerSubmission_** = _20 szabo_;
+    - **_PricePerBellRing_**   = _6 szabo_;
+ 
+```Solidity
+        if(HasVoucher) 
+            return GasForCallback * GasPriceInWei;
+        else
+            return PricePerBellRing + PricePerSubmission + (GasForCallback * GasPriceInWei);
+```
+
++ _**Run**(...)_: 
+    - if you have a promo code then you transfer your gas budget for the callback
+    - otherwise the full price needs to be payed
+    - **_PricePerSubmission_** = _20 szabo_;
+    - **_PricePerSlice_**      = _50 szabo_; // 1 slice = 10 seconds
+ 
+```Solidity
+        if(HasVoucher) 
+            return GasForCallback * GasPriceInWei;
+        else
+            return PricePerSubmission + (RuntimeSlices * PricePerSlice) + (GasForCallback * GasPriceInWei);
+```
+
 
 ### What If? 
 
