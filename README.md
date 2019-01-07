@@ -1,6 +1,6 @@
 ## The Captain's Mess
 
-![useful image](Captain.jpg)
+![useful image](Images/Captain.jpg)
 
 There are so many Ethereum Oracles out there. But I needed a more simple and straight forward one for my projects. Thus, I created my own one. 
 Hi, **I'm CaptainJS** and my nodejs container ship just left the harbor. **Be my Seaman** and start invoking JavaScript directly from Ethereum's Solidity. Here's how to do it...  
