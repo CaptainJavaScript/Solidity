@@ -12,6 +12,7 @@ The **_SeamansExamples_** contract contains some code which you will see in the 
 
 _(If the contract doesn't have enough budget anymore because too many seamen tested it, then transfer a tiny amount of real / faucet Ether to it)_
 
+![useful image](Images/Step 3 - Create the Contract.gif)
 
 ### Use Case #1: The Simple Callback (aka "ring the ship's bell")
 
