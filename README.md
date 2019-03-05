@@ -337,6 +337,33 @@ module.exports = async function(CaptainJSIn) {
 }
 ```
 
+### Use Case 8: IPFS
+If you want to upload or download files to an IPFS server than just use the **_ipfs:_** command:
+
+```solidity
+   ...
+   Run( 
+      jobId, 
+      "ipfs:add:*server_url*:*server_port*:*base64_encoded_file_content*",
+      "*file_name*",
+      ...
+   );
+```
+and:
+```solidity
+   ...
+   Run( 
+      jobId, 
+      "ipfs:cat:*server_url*:*server_port*:*hash_value*",
+      "",
+      ...
+   );
+```
+
+The **_:add:_** command will add the file to the selected IPFS drive. The **_:cat:_** command will get the file. 
+
+
+
 ### Voucher Codes
 
 There's both a ROPSTEN and MAINNET version available. Both are equal. Inside your **_usingCaptainJS_** there is a voucher context included. Just add your voucher code by calling **_ActivateVoucher_** from your derived Solidity code. 
