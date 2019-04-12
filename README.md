@@ -13,8 +13,6 @@ Hi, **I'm CaptainJS** and my nodejs container ship just left the harbor. **Be my
 
 The **_SeamansExamples_** contract contains some code which you will see in the further chapters. There's a demo instance running at Ethereum's mainnet at address _0xfcd53089c3de49fa8c6cc8330cd9f49e84b01cd6_ (ROPSTEN: _0x2c53859c18da0e286161f1649e6a5fdabcb9bb98_) waiting for your tests. 
 
-_(If the contract doesn't have enough budget anymore because too many seamen tested it, then transfer a tiny amount of real / faucet Ether to it)_
-
 ![useful image](Images/Step3.gif)
 
 ### Use Case #1: The Simple Callback (aka "ring the ship's bell")
